@@ -4,6 +4,7 @@ import Footer from "./components/Footer";
 import Landing from "./pages/Landing";
 import Hospital from "./pages/Hospital";
 import Login from "./pages/Login";
+import Patient from "./pages/Patient";
 import ProviderDashboard from "./pages/ProviderDashboard";
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
                 <Routes>
                   <Route path="/" element={<Landing />} />
                   <Route path="/login/:role" element={<Login />} />
+                  <Route path="/patient" element={<Patient />} />
                 </Routes>
               </main>
               <Footer />

@@ -2,8 +2,24 @@ import { Link } from 'react-router-dom';
 import { useState } from 'react';
 
 function Patient() {
+  // Dummy patient data loaded by default
+  const dummyPatient = {
+    uid: 'ACK210001',
+    name: 'Rajesh Kumar',
+    age: '45',
+    gender: 'Male',
+    phone: '+91-9876543210',
+    email: 'rajesh.kumar@email.com',
+    address: '123, MG Road, Bangalore, Karnataka - 560001',
+    policyType: 'Family Health Plus',
+    coverage: '500000',
+    premium: '15000',
+    authorizedDiseases: 'Diabetes; Hypertension; Heart Disease; Cancer; Kidney Disease',
+    dateOfInsuranceIssued: '2021-01-15'
+  };
+
   const [searchUID, setSearchUID] = useState('');
-  const [patientData, setPatientData] = useState(null);
+  const [patientData, setPatientData] = useState(dummyPatient);
   const [loading, setLoading] = useState(false);
   const [notFound, setNotFound] = useState(false);
 
@@ -69,8 +85,12 @@ function Patient() {
 
   const handleClear = () => {
     setSearchUID('');
-    setPatientData(null);
+    setPatientData(dummyPatient);
     setNotFound(false);
+  };
+
+  const handleTrackClaim = () => {
+    alert('Track Your Claim feature coming soon! You will be able to track all your submitted claims here.');
   };
 
   return (
@@ -86,84 +106,6 @@ function Patient() {
           </svg>
           Back to Home
         </Link>
-
-        {/* Page Header */}
-        <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl shadow-lg p-8 mb-8">
-          <div className="flex items-center gap-3 mb-4">
-            <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-            </svg>
-            <h1 className="text-3xl font-bold text-white">Patient Records</h1>
-          </div>
-          <p className="text-blue-100">Search for your complete medical insurance information by entering your unique patient ID</p>
-        </div>
-
-        {/* Search Section */}
-        <div className="bg-white rounded-xl shadow-lg p-8 mb-8">
-          <h2 className="text-xl font-bold text-gray-900 mb-6">Search Your Records</h2>
-          
-          <form onSubmit={handleSearch} className="space-y-4">
-            <div>
-              <label htmlFor="search-uid" className="block text-sm font-semibold text-gray-700 mb-2">
-                Patient UID
-              </label>
-              <div className="flex gap-4">
-                <input
-                  id="search-uid"
-                  type="text"
-                  value={searchUID}
-                  onChange={(e) => setSearchUID(e.target.value)}
-                  placeholder="Enter Patient UID (e.g., ACK210001)"
-                  className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-lg"
-                  autoComplete="off"
-                />
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="px-8 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
-                >
-                  {loading ? (
-                    <>
-                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
-                      Searching...
-                    </>
-                  ) : (
-                    <>
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                      </svg>
-                      Search
-                    </>
-                  )}
-                </button>
-                {(patientData || notFound) && (
-                  <button
-                    type="button"
-                    onClick={handleClear}
-                    className="px-6 py-3 bg-gray-200 text-gray-700 font-semibold rounded-lg hover:bg-gray-300 transition-colors"
-                  >
-                    Clear
-                  </button>
-                )}
-              </div>
-            </div>
-            <p className="text-sm text-gray-500">
-              💡 Try sample UIDs: ACK210001, DIG220001, HDF230001, PMJ260001, ECH260001
-            </p>
-          </form>
-        </div>
-
-        {/* Not Found Message */}
-        {notFound && (
-          <div className="bg-red-50 border border-red-200 rounded-xl p-8 text-center">
-            <svg className="w-16 h-16 text-red-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            <h3 className="text-xl font-bold text-red-800 mb-2">Patient Not Found</h3>
-            <p className="text-red-600">No patient record found with UID: <span className="font-mono font-semibold">{searchUID}</span></p>
-            <p className="text-sm text-red-500 mt-2">Please check the UID and try again</p>
-          </div>
-        )}
 
         {/* Patient Data Display */}
         {patientData && (
@@ -295,7 +237,17 @@ function Patient() {
             </div>
 
             {/* Quick Actions */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+              <button 
+                onClick={handleTrackClaim}
+                className="bg-orange-600 text-white px-6 py-4 rounded-lg font-semibold hover:bg-orange-700 transition-colors flex items-center justify-center gap-2 shadow-lg hover:shadow-xl"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                </svg>
+                Track Your Claim
+              </button>
+
               <button className="bg-blue-600 text-white px-6 py-4 rounded-lg font-semibold hover:bg-blue-700 transition-colors flex items-center justify-center gap-2 shadow-lg hover:shadow-xl">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
